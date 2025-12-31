@@ -77,6 +77,22 @@
   .btn.secondary{background:transparent;color:var(--fg)}
   .small{color:var(--muted);font-size:0.92rem}
   
+  .tags-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:14px;
+  }
+  .tag{
+    padding:5px 10px;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:var(--card);
+    font-size:0.85rem;
+    color:var(--muted);
+    font-weight:500;
+  }
+  
   /* Featured figure + strip */
   .featured-figure{
     margin:14px auto 10px;

@@ -75,6 +75,18 @@ async function loadPaper() {
       container.appendChild(note);
     }
   }
+
+  function renderTags(container, tags) {
+    container.innerHTML = "";
+    if (!tags || tags.length === 0) return;
+    
+    (tags || []).forEach(tag => {
+      const span = document.createElement("span");
+      span.className = "tag";
+      span.textContent = tag;
+      container.appendChild(span);
+    });
+  }
   
   function renderPeople(container, authors) {
     container.innerHTML = "";
@@ -362,6 +374,8 @@ async function loadPaper() {
     const cta = el("cta-row");
     cta.innerHTML = "";
     (p.buttons || []).forEach(b => cta.appendChild(makeButton(b)));
+  
+    renderTags(el("tags-row"), p.tags);
   
     safeText(el("paper-affils"), p.affiliationsLine);
   
