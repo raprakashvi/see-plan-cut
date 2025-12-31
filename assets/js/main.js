@@ -117,13 +117,13 @@ async function loadPaper() {
       `;
       container.appendChild(card);
     });
-    // Add notes about co-first and co-advisor
+    // Add notes about co-first and co-advisor on same line
     const hasCoFirst = (authors || []).some(a => a.coFirst);
     const hasCoAdvisor = (authors || []).some(a => a.coAdvisor);
     if (hasCoFirst || hasCoAdvisor) {
       const noteDiv = document.createElement("div");
       noteDiv.className = "author-notes";
-      noteDiv.style.cssText = "margin-top: 12px; color: var(--muted); font-size: 0.9rem;";
+      noteDiv.style.cssText = "margin-top: 12px; color: var(--muted); font-size: 0.9rem; display: inline-block; width: 100%;";
       const notes = [];
       if (hasCoFirst) notes.push("* Equal contribution");
       if (hasCoAdvisor) notes.push("† Equal advising");
@@ -290,15 +290,8 @@ async function loadPaper() {
       }
     });
     
-    // Create grid layout
-    const grid = document.createElement("div");
-    grid.className = "logos-grid";
-    grid.style.cssText = "display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0;";
-    
-    // Top row: center labs
-    const topRow = document.createElement("div");
-    topRow.style.cssText = "grid-column: 1 / -1; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;";
-    grouped["center-top"].forEach(inst => {
+    // Helper function for consistent logo rendering
+    function renderLogoCard(inst) {
       const a = document.createElement(inst.href ? "a" : "div");
       a.className = "logo-card";
       if (inst.href) {
@@ -306,11 +299,27 @@ async function loadPaper() {
         a.target = "_blank";
         a.rel = "noopener";
       }
+      // Ensure consistent logo sizing (40px height for all logos)
+      const logoImg = inst.logoSrc.endsWith('.svg') 
+        ? `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="filter: brightness(0) saturate(100%) invert(15%) sepia(95%) saturate(5000%) hue-rotate(195deg) brightness(0.6) contrast(1.2); height: 40px; width: auto; object-fit: contain;" />`
+        : `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="height: 40px; width: auto; object-fit: contain;" />`;
       a.innerHTML = `
-        ${createLogoHTML(inst)}
+        ${logoImg}
         <div class="label">${inst.name}</div>
       `;
-      topRow.appendChild(a);
+      return a;
+    }
+    
+    // Create grid layout
+    const grid = document.createElement("div");
+    grid.className = "logos-grid";
+    grid.style.cssText = "display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0;";
+    
+    // Top row: center labs
+    const topRow = document.createElement("div");
+    topRow.style.cssText = "grid-column: 1 / -1; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; align-items: center;";
+    grouped["center-top"].forEach(inst => {
+      topRow.appendChild(renderLogoCard(inst));
     });
     grid.appendChild(topRow);
     
@@ -322,18 +331,7 @@ async function loadPaper() {
     const leftCol = document.createElement("div");
     leftCol.style.cssText = "display: flex; justify-content: flex-start;";
     grouped["left-bottom"].forEach(inst => {
-      const a = document.createElement(inst.href ? "a" : "div");
-      a.className = "logo-card";
-      if (inst.href) {
-        a.href = inst.href;
-        a.target = "_blank";
-        a.rel = "noopener";
-      }
-      a.innerHTML = `
-        ${createLogoHTML(inst)}
-        <div class="label">${inst.name}</div>
-      `;
-      leftCol.appendChild(a);
+      leftCol.appendChild(renderLogoCard(inst));
     });
     bottomRow.appendChild(leftCol);
     
@@ -341,18 +339,7 @@ async function loadPaper() {
     const centerCol = document.createElement("div");
     centerCol.style.cssText = "display: flex; justify-content: center;";
     grouped["center-bottom"].forEach(inst => {
-      const a = document.createElement(inst.href ? "a" : "div");
-      a.className = "logo-card";
-      if (inst.href) {
-        a.href = inst.href;
-        a.target = "_blank";
-        a.rel = "noopener";
-      }
-      a.innerHTML = `
-        ${createLogoHTML(inst)}
-        <div class="label">${inst.name}</div>
-      `;
-      centerCol.appendChild(a);
+      centerCol.appendChild(renderLogoCard(inst));
     });
     bottomRow.appendChild(centerCol);
     
@@ -360,18 +347,7 @@ async function loadPaper() {
     const rightCol = document.createElement("div");
     rightCol.style.cssText = "display: flex; justify-content: flex-end;";
     grouped["right-bottom"].forEach(inst => {
-      const a = document.createElement(inst.href ? "a" : "div");
-      a.className = "logo-card";
-      if (inst.href) {
-        a.href = inst.href;
-        a.target = "_blank";
-        a.rel = "noopener";
-      }
-      a.innerHTML = `
-        ${createLogoHTML(inst)}
-        <div class="label">${inst.name}</div>
-      `;
-      rightCol.appendChild(a);
+      rightCol.appendChild(renderLogoCard(inst));
     });
     bottomRow.appendChild(rightCol);
     
