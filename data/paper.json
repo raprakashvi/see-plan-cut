@@ -22,7 +22,7 @@
       "Autonomous Systems"
     ],
   
-    "affiliationsLine": "Duke University • Mechanical Engineering & Materials Science • Neurosurgery",
+    "affiliationsLine": "Mechanical Engineering and Materials Science, Neurosurgery, Duke University",
   
     "teaser": {
       "src": "assets/img/figures/System_Overview.png",
@@ -86,7 +86,7 @@
     "acknowledgements": "The authors wish to thank Aislinn Hurley and the members of the Brain Tool Lab for support and feedback.",
   
     "authors": [
-      { "name": "Ravi Prakash",        "affil": "Duke University", "photo": "assets/authors/Ravi.jpeg",     "links": [], "coFirst": true },
+      { "name": "Ravi Prakash",        "affil": "Duke University", "photo": "assets/authors/Ravi.jpg",     "links": [], "coFirst": true },
       { "name": "Vincent Y. Wang",     "affil": "Duke University", "photo": "assets/authors/Vincent.jpg",  "links": [], "coFirst": true },
       { "name": "Arpit Mishra",        "affil": "Duke University", "photo": "assets/authors/Arpit.jpg",    "links": [] },
       { "name": "Devi Yuliarti",       "affil": "Duke University", "photo": "assets/authors/Devi.jpeg",     "links": [] },

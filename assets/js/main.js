@@ -71,13 +71,13 @@ async function loadPaper() {
     // Add notes about co-first and co-advisor authors if any exist
     const hasCoFirst = (authors || []).some(a => a.coFirst);
     const hasCoAdvisor = (authors || []).some(a => a.coAdvisor);
-    const notes = [];
-    if (hasCoFirst) notes.push("* Equal contribution");
-    if (hasCoAdvisor) notes.push("† Equal advising");
-    if (notes.length > 0) {
+    if (hasCoFirst || hasCoAdvisor) {
       const note = document.createElement("span");
       note.className = "author-note";
-      note.textContent = notes.join(" • ");
+      const parts = [];
+      if (hasCoFirst) parts.push("* Equal contribution");
+      if (hasCoAdvisor) parts.push("† Equal advising");
+      note.textContent = parts.join(" • ");
       note.style.cssText = "color: var(--muted); font-size: 0.85rem; margin-left: 8px;";
       container.appendChild(note);
     }
