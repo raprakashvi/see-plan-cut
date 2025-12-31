@@ -156,17 +156,59 @@ async function loadPaper() {
     const existingBtn = stripWrap.querySelector("#show-more-figures");
     if (existingBtn) existingBtn.remove();
   
-    // Default featured: explicit featured OR first gallery item
-    const first = featured || (gallery && gallery[0]) || null;
-    if (first) {
-      featuredImg.src = first.src;
-      featuredImg.alt = first.alt || "Figure";
-      safeText(featuredCap, first.caption || "");
-    }
-  
     // Filter out System_Overview.png from gallery if it's the teaser
     const systemOverviewPath = "assets/img/figures/System_Overview.png";
     const filteredGallery = (gallery || []).filter(f => f.src !== systemOverviewPath);
+    
+    if (filteredGallery.length === 0) return;
+    
+    let currentIndex = 0;
+    let autoRotateInterval = null;
+    let isPaused = false;
+    
+    // Function to update featured image
+    function updateFeatured(index) {
+      const figure = filteredGallery[index];
+      featuredImg.src = figure.src;
+      featuredImg.alt = figure.alt || "Figure";
+      safeText(featuredCap, figure.caption || "");
+      
+      // Update active state in thumbnails
+      [...strip.querySelectorAll(".thumb")].forEach((thumb, idx) => {
+        thumb.classList.toggle("active", idx === index);
+      });
+    }
+    
+    // Function to start auto-rotation
+    function startAutoRotate() {
+      if (autoRotateInterval) clearInterval(autoRotateInterval);
+      autoRotateInterval = setInterval(() => {
+        if (!isPaused) {
+          currentIndex = (currentIndex + 1) % filteredGallery.length;
+          updateFeatured(currentIndex);
+        }
+      }, 4000); // Change every 4 seconds
+    }
+    
+    // Function to pause auto-rotation
+    function pauseAutoRotate() {
+      isPaused = true;
+    }
+    
+    // Function to resume auto-rotation
+    function resumeAutoRotate() {
+      isPaused = false;
+    }
+    
+    // Initialize with first figure
+    updateFeatured(0);
+    
+    // Pause on hover, resume on leave
+    const featuredFigure = featuredImg.closest('.featured-figure');
+    if (featuredFigure) {
+      featuredFigure.addEventListener('mouseenter', pauseAutoRotate);
+      featuredFigure.addEventListener('mouseleave', resumeAutoRotate);
+    }
     
     // Show first 3 by default, rest hidden
     const initialCount = 3;
@@ -175,7 +217,7 @@ async function loadPaper() {
     strip.innerHTML = "";
     filteredGallery.forEach((f, idx) => {
       const t = document.createElement("div");
-      t.className = "thumb" + ((first && f.src === first.src) ? " active" : "");
+      t.className = "thumb" + (idx === 0 ? " active" : "");
       if (idx >= initialCount) {
         t.style.display = "none";
       }
@@ -184,15 +226,19 @@ async function loadPaper() {
         <div class="cap">${f.caption || ""}</div>
       `;
       t.addEventListener("click", () => {
-        featuredImg.src = f.src;
-        featuredImg.alt = f.alt || "Figure";
-        safeText(featuredCap, f.caption || "");
-        // active state
-        [...strip.querySelectorAll(".thumb")].forEach(x => x.classList.remove("active"));
-        t.classList.add("active");
+        currentIndex = idx;
+        updateFeatured(idx);
+        pauseAutoRotate();
+        // Resume after 10 seconds of inactivity
+        setTimeout(() => {
+          resumeAutoRotate();
+        }, 10000);
       });
       strip.appendChild(t);
     });
+    
+    // Start auto-rotation
+    startAutoRotate();
     
     // Show more button
     if (filteredGallery.length > initialCount) {
@@ -218,6 +264,16 @@ async function loadPaper() {
   
   function renderLogos(container, institutions) {
     container.innerHTML = "";
+    
+    // Helper function to create logo HTML with SVG color handling
+    function createLogoHTML(inst) {
+      if (inst.logoSrc.endsWith('.svg')) {
+        // Duke Blue color filter for SVG: #00539B
+        return `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="filter: brightness(0) saturate(100%) invert(15%) sepia(95%) saturate(5000%) hue-rotate(195deg) brightness(0.6) contrast(1.2);" />`;
+      } else {
+        return `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" />`;
+      }
+    }
     
     // Group by position
     const grouped = {
@@ -251,7 +307,7 @@ async function loadPaper() {
         a.rel = "noopener";
       }
       a.innerHTML = `
-        <img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" />
+        ${createLogoHTML(inst)}
         <div class="label">${inst.name}</div>
       `;
       topRow.appendChild(a);
@@ -274,7 +330,7 @@ async function loadPaper() {
         a.rel = "noopener";
       }
       a.innerHTML = `
-        <img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" />
+        ${createLogoHTML(inst)}
         <div class="label">${inst.name}</div>
       `;
       leftCol.appendChild(a);
@@ -293,7 +349,7 @@ async function loadPaper() {
         a.rel = "noopener";
       }
       a.innerHTML = `
-        <img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" />
+        ${createLogoHTML(inst)}
         <div class="label">${inst.name}</div>
       `;
       centerCol.appendChild(a);
@@ -312,7 +368,7 @@ async function loadPaper() {
         a.rel = "noopener";
       }
       a.innerHTML = `
-        <img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" />
+        ${createLogoHTML(inst)}
         <div class="label">${inst.name}</div>
       `;
       rightCol.appendChild(a);
