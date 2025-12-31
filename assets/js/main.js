@@ -6,7 +6,13 @@ function setupYouTubeThumbnailPlayer(video) {
   
     if (!video || !video.youtubeId) return;
   
-    const id = video.youtubeId.trim();
+    // Extract YouTube ID from URL or use as-is if already just an ID
+    let id = video.youtubeId.trim();
+    const urlMatch = id.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
+    if (urlMatch) {
+      id = urlMatch[1];
+    }
+    
     wrap.style.display = "block";
   
     // Try maxres thumbnail, fallback to hqdefault if maxres missing
@@ -147,12 +153,6 @@ async function loadPaper() {
     safeText(el("paper-venue"), p.venueLine);
     safeText(el("paper-title"), p.title);
     safeText(el("paper-subtitle"), p.subtitle);
-
-    if (p.video?.embedUrl) {
-  el("video-wrap").style.display = "block";
-  el("video-embed").src = p.video.embedUrl;
-}
-
   
     renderAuthorsPills(el("author-list"), p.authors);
   
