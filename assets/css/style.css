@@ -30,7 +30,7 @@
     padding:14px 0;
   }
   .brand{font-weight:650;letter-spacing:0.2px}
-  .nav{display:flex;gap:14px}
+  .nav{display:flex;gap:14px;flex-wrap:wrap}
   .nav a{color:var(--muted);font-size:0.95rem}
   .nav a:hover{color:var(--fg)}
   
@@ -65,22 +65,6 @@
   .section h2{margin:0 0 12px;font-size:1.35rem}
   .prose{color:var(--fg);max-width:78ch}
   
-  .cards{
-    margin-top:18px;
-    display:grid;grid-template-columns:1fr 1fr;gap:16px;
-  }
-  @media (max-width: 920px){.cards{grid-template-columns:1fr}}
-  .card{
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    background:var(--card);
-    padding:16px;
-    box-shadow:var(--shadow);
-  }
-  .card h3{margin:0 0 10px;font-size:1.05rem}
-  .card ul{margin:0;padding-left:18px;color:var(--muted)}
-  .card li{margin:8px 0}
-  
   .cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
@@ -88,37 +72,81 @@
     background:var(--fg);color:#fff;font-weight:600;font-size:0.95rem;
   }
   .btn:hover{opacity:0.93}
-  .btn.secondary{
-    background:transparent;color:var(--fg);
-  }
+  .btn.secondary{background:transparent;color:var(--fg)}
   .small{color:var(--muted);font-size:0.92rem}
   
-  .metrics{
-    display:grid;grid-template-columns:repeat(3, 1fr);gap:14px;margin-top:14px;
+  /* Featured figure + strip */
+  .featured-figure{
+    margin:14px auto 10px;
+    max-width: 980px;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--card);
+    box-shadow:var(--shadow);
   }
-  @media (max-width: 920px){.metrics{grid-template-columns:1fr}}
-  .metric{
-    border:1px solid var(--border);border-radius:var(--radius);
-    background:var(--card);padding:14px;box-shadow:var(--shadow);
+  .featured-figure img{
+    width:100%;
+    border-radius:14px;
+    display:block;
   }
-  .metric .label{color:var(--muted);font-size:0.92rem}
-  .metric .value{font-size:1.25rem;font-weight:700;margin-top:6px}
+  .featured-figure figcaption{
+    color:var(--muted);
+    font-size:0.92rem;
+    margin-top:10px;
+  }
   
-  .figure-grid{
-    display:grid;grid-template-columns:repeat(2, 1fr);gap:14px;margin-top:14px;
+  .thumb-strip-wrap{
+    margin-top:10px;
   }
-  @media (max-width: 920px){.figure-grid{grid-template-columns:1fr}}
-  .figure-card{
-    border:1px solid var(--border);border-radius:var(--radius);
-    background:var(--card);padding:14px;box-shadow:var(--shadow);
+  .thumb-strip{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:6px 2px 10px;
+    scroll-snap-type:x mandatory;
   }
-  .figure-card img{width:100%;border-radius:14px;display:block}
-  .figure-card .cap{color:var(--muted);font-size:0.92rem;margin-top:10px}
+  .thumb{
+    flex:0 0 auto;
+    width:180px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:var(--card);
+    padding:8px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    scroll-snap-align:start;
+  }
+  .thumb img{
+    width:100%;
+    height:105px;
+    object-fit:cover;
+    border-radius:10px;
+    display:block;
+  }
+  .thumb .cap{
+    margin-top:8px;
+    color:var(--muted);
+    font-size:0.88rem;
+    line-height:1.25;
+  }
+  .thumb.active{
+    border-color: rgba(31,94,255,0.45);
+  }
   
+  /* Video */
   .video-wrap{margin-top:22px}
-  .ratio-16x9{position:relative;padding-top:56.25%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow)}
+  .ratio-16x9{
+    position:relative;
+    padding-top:56.25%;
+    border-radius:var(--radius);
+    overflow:hidden;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+  }
   .ratio-16x9 iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   
+  /* People */
   .people{
     display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px;
   }
@@ -137,6 +165,43 @@
   .person .links a{color:var(--muted);font-size:0.9rem}
   .person .links a:hover{color:var(--accent)}
   
+  /* Logos + acknowledgements */
+  .logos-row{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin:12px 0 14px;
+  }
+  .logo-card{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:var(--card);
+    box-shadow:var(--shadow);
+  }
+  .logo-card img{
+    height:22px;
+    width:auto;
+    display:block;
+  }
+  .logo-card .label{
+    color:var(--muted);
+    font-size:0.92rem;
+  }
+  
+  .card{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--card);
+    padding:16px;
+    box-shadow:var(--shadow);
+  }
+  .ack-card{max-width: 980px}
+  
+  /* BibTeX */
   .bibtex{
     border:1px solid var(--border);
     border-radius:var(--radius);
@@ -148,7 +213,7 @@
   pre{margin:0;overflow:auto}
   pre code{display:block;padding:12px;border-radius:14px;background:#0c1220;color:#e9eefc}
   
-  .note{color:var(--muted);margin-top:10px}
+  /* Footer */
   .footer{border-top:1px solid var(--border);padding:18px 0}
   .footer-inner{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
   

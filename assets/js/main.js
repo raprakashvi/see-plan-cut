@@ -4,6 +4,7 @@ async function loadPaper() {
   }
   
   function el(id){ return document.getElementById(id); }
+  function safeText(node, text) { node.textContent = text ?? ""; }
   
   function makeButton({label, href, style="primary"}) {
     const a = document.createElement("a");
@@ -13,44 +14,6 @@ async function loadPaper() {
     a.rel = "noopener";
     a.textContent = label;
     return a;
-  }
-  
-  function safeText(node, text) { node.textContent = text ?? ""; }
-  
-  function renderList(container, items) {
-    container.innerHTML = "";
-    (items || []).forEach(t => {
-      const li = document.createElement("li");
-      li.textContent = t;
-      container.appendChild(li);
-    });
-  }
-  
-  function renderMetrics(container, metrics) {
-    container.innerHTML = "";
-    (metrics || []).forEach(m => {
-      const d = document.createElement("div");
-      d.className = "metric";
-      d.innerHTML = `
-        <div class="label">${m.label}</div>
-        <div class="value">${m.value}</div>
-        <div class="small">${m.context || ""}</div>
-      `;
-      container.appendChild(d);
-    });
-  }
-  
-  function renderFigures(container, figures) {
-    container.innerHTML = "";
-    (figures || []).forEach(f => {
-      const card = document.createElement("div");
-      card.className = "figure-card";
-      card.innerHTML = `
-        <img src="${f.src}" alt="${f.alt || "Figure"}" loading="lazy" />
-        <div class="cap">${f.caption || ""}</div>
-      `;
-      container.appendChild(card);
-    });
   }
   
   function renderAuthorsPills(container, authors) {
@@ -95,6 +58,57 @@ async function loadPaper() {
     });
   }
   
+  function renderFeaturedAndStrip(featured, gallery) {
+    const featuredImg = el("featured-img");
+    const featuredCap = el("featured-caption");
+    const strip = el("thumb-strip");
+  
+    // Default featured: explicit featured OR first gallery item
+    const first = featured || (gallery && gallery[0]) || null;
+    if (first) {
+      featuredImg.src = first.src;
+      featuredImg.alt = first.alt || "Figure";
+      safeText(featuredCap, first.caption || "");
+    }
+  
+    strip.innerHTML = "";
+    (gallery || []).forEach((f, idx) => {
+      const t = document.createElement("div");
+      t.className = "thumb" + ((first && f.src === first.src) ? " active" : "");
+      t.innerHTML = `
+        <img src="${f.src}" alt="${f.alt || "Figure"}" loading="lazy" />
+        <div class="cap">${f.caption || ""}</div>
+      `;
+      t.addEventListener("click", () => {
+        featuredImg.src = f.src;
+        featuredImg.alt = f.alt || "Figure";
+        safeText(featuredCap, f.caption || "");
+        // active state
+        [...strip.querySelectorAll(".thumb")].forEach(x => x.classList.remove("active"));
+        t.classList.add("active");
+      });
+      strip.appendChild(t);
+    });
+  }
+  
+  function renderLogos(container, institutions) {
+    container.innerHTML = "";
+    (institutions || []).forEach(inst => {
+      const a = document.createElement(inst.href ? "a" : "div");
+      a.className = "logo-card";
+      if (inst.href) {
+        a.href = inst.href;
+        a.target = "_blank";
+        a.rel = "noopener";
+      }
+      a.innerHTML = `
+        <img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" />
+        <div class="label">${inst.name}</div>
+      `;
+      container.appendChild(a);
+    });
+  }
+  
   (async function main(){
     const p = await loadPaper();
   
@@ -118,13 +132,7 @@ async function loadPaper() {
   
     safeText(el("paper-abstract"), p.abstract);
   
-    renderList(el("paper-contribs"), p.contributions);
-    renderList(el("paper-glance"), p.atAGlance);
-  
-    renderMetrics(el("paper-metrics"), p.metrics);
-    safeText(el("metrics-note"), p.metricsNote);
-  
-    renderFigures(el("figure-grid"), p.figures);
+    renderFeaturedAndStrip(p.featuredFigure, p.galleryFigures);
   
     if (p.video?.embedUrl) {
       el("video-wrap").style.display = "block";
@@ -133,10 +141,14 @@ async function loadPaper() {
   
     renderPeople(el("people-grid"), p.authors);
   
+    renderLogos(el("logos-row"), p.institutions);
+    safeText(el("ack-text"), p.acknowledgements || "");
+  
     safeText(el("doi-line"), p.doi ? `DOI: ${p.doi}` : "");
     safeText(el("bibtex-block"), p.bibtex);
     setupCopyBibtex(p.bibtex);
   
+    safeText(el("footer-left"), p.footerLeft || "");
     safeText(el("last-updated"), p.lastUpdated ? `Last updated: ${p.lastUpdated}` : "");
   })();
   

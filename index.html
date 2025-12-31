@@ -6,7 +6,6 @@
   <title>See, Plan, Cut</title>
   <meta name="description" content="Paper website: See, Plan, Cut — MPC-Based Autonomous Volumetric Robotic Laser Surgery with OCT Guidance." />
 
-  <!-- Open Graph (nice link previews) -->
   <meta property="og:title" content="See, Plan, Cut" />
   <meta property="og:description" content="MPC-Based Autonomous Volumetric Robotic Laser Surgery with OCT Guidance" />
   <meta property="og:type" content="website" />
@@ -18,11 +17,12 @@
 <body>
   <header class="topbar">
     <div class="container topbar-inner">
-      <a class="brand" href="#top">Paper</a>
+      <a class="brand" href="#top">See·Plan·Cut</a>
       <nav class="nav">
         <a href="#overview">Overview</a>
-        <a href="#results">Results</a>
         <a href="#media">Media</a>
+        <a href="#team">Team</a>
+        <a href="#ack">Acknowledgements</a>
         <a href="#bibtex">BibTeX</a>
       </nav>
     </div>
@@ -54,33 +54,25 @@
       <div class="container">
         <h2>Abstract</h2>
         <p class="prose" id="paper-abstract"></p>
-
-        <div class="cards">
-          <div class="card">
-            <h3>Contributions</h3>
-            <ul id="paper-contribs"></ul>
-          </div>
-          <div class="card">
-            <h3>At a glance</h3>
-            <ul id="paper-glance"></ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="results" class="section">
-      <div class="container">
-        <h2>Key results</h2>
-        <div class="metrics" id="paper-metrics"></div>
-        <p class="note" id="metrics-note"></p>
       </div>
     </section>
 
     <section id="media" class="section">
       <div class="container">
-        <h2>Figures & media</h2>
-        <div class="figure-grid" id="figure-grid"></div>
+        <h2>Figure</h2>
 
+        <!-- One large featured figure -->
+        <figure class="featured-figure">
+          <img id="featured-img" src="assets/img/figures/fig1.jpg" alt="Featured figure" />
+          <figcaption id="featured-caption"></figcaption>
+        </figure>
+
+        <!-- Scrollable strip of other figures -->
+        <div class="thumb-strip-wrap">
+          <div class="thumb-strip" id="thumb-strip"></div>
+        </div>
+
+        <!-- Optional video -->
         <div class="video-wrap" id="video-wrap" style="display:none;">
           <h3>Video</h3>
           <div class="ratio-16x9">
@@ -94,7 +86,18 @@
       <div class="container">
         <h2>Authors</h2>
         <div class="people" id="people-grid"></div>
-        <p class="note">Tip: add headshots in <code>assets/img/authors/</code>. Use square crops (~256×256) for best results.</p>
+      </div>
+    </section>
+
+    <section id="ack" class="section">
+      <div class="container">
+        <h2>Acknowledgements</h2>
+
+        <div class="logos-row" id="logos-row"></div>
+
+        <div class="card ack-card">
+          <p class="prose" id="ack-text"></p>
+        </div>
       </div>
     </section>
 
@@ -113,7 +116,7 @@
 
     <footer class="footer">
       <div class="container footer-inner">
-        <span class="small">Built from a lightweight GitHub Pages template.</span>
+        <span class="small" id="footer-left"></span>
         <span class="small" id="last-updated"></span>
       </div>
     </footer>
