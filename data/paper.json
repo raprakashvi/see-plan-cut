@@ -17,9 +17,9 @@
     "affiliationsLine": "Duke University • Mechanical Engineering & Materials Science • Neurosurgery",
   
     "teaser": {
-      "src": "assets/img/teaser.jpg",
-      "alt": "RATS platform and OCT-guided volumetric resection",
-      "caption": "RATS: OCT-guided robotic laser surgery for constraint-aware volumetric resection."
+      "src": "assets/img/figures/System_Overview.png",
+      "alt": "See, Plan, Cut system overview",
+      "caption": "System overview: closed-loop robotic surgical workflow with OCT guidance."
     },
   
     "abstract": "Robotic laser systems offer the potential for submillimeter, non-contact, high-precision tissue resection, yet existing platforms lack volumetric planning and intraoperative feedback. We present RATS (Robot-Assisted Tissue Surgery), an intelligent opto-mechanical, OCT-guided robotic platform designed for autonomous volumetric soft tissue resection. RATS integrates macro-scale RGB-D imaging, micro-scale OCT, and a fiber-coupled surgical laser, calibrated through a multistage alignment pipeline. A super-Gaussian laser–tissue interaction model characterizes ablation crater morphology and a sampling-based MPC framework operates directly on OCT voxel data to generate constraint-aware resection trajectories with closed-loop feedback. With OCT, RATS detects subsurface structures and modifies the planner’s objective to preserve them, supporting clinically relevant scenarios in neurosurgery and complex soft tissue oncology.",
@@ -59,8 +59,8 @@
     "acknowledgements": "The authors wish to thank Aislinn Hurley and the members of the Brain Tool Lab for support and feedback.",
   
     "authors": [
-      { "name": "Ravi Prakash",        "affil": "Duke University", "photo": "assets/img/authors/Ravi.jpg",     "links": [] },
-      { "name": "Vincent Y. Wang",     "affil": "Duke University", "photo": "assets/img/authors/Vincent.jpg",  "links": [] },
+      { "name": "Ravi Prakash",        "affil": "Duke University", "photo": "assets/img/authors/Ravi.jpg",     "links": [], "coFirst": true },
+      { "name": "Vincent Y. Wang",     "affil": "Duke University", "photo": "assets/img/authors/Vincent.jpg",  "links": [], "coFirst": true },
       { "name": "Arpit Mishra",        "affil": "Duke University", "photo": "assets/img/authors/Arpit.jpg",    "links": [] },
       { "name": "Devi Yuliarti",       "affil": "Duke University", "photo": "assets/img/authors/Devi.jpg",     "links": [] },
       { "name": "Pei Zhong",           "affil": "Duke University", "photo": "assets/img/authors/Pei.jpg",      "links": [] },

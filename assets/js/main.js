@@ -57,9 +57,23 @@ async function loadPaper() {
     (authors || []).forEach(a => {
       const span = document.createElement("span");
       span.className = "author-pill";
-      span.textContent = a.name;
+      if (a.coFirst) {
+        span.innerHTML = `${a.name}<sup>*</sup>`;
+        span.title = "* Equal contribution";
+      } else {
+        span.textContent = a.name;
+      }
       container.appendChild(span);
     });
+    // Add note about co-first authors if any exist
+    const hasCoFirst = (authors || []).some(a => a.coFirst);
+    if (hasCoFirst) {
+      const note = document.createElement("span");
+      note.className = "author-note";
+      note.textContent = "* Equal contribution";
+      note.style.cssText = "color: var(--muted); font-size: 0.85rem; margin-left: 8px;";
+      container.appendChild(note);
+    }
   }
   
   function renderPeople(container, authors) {
@@ -68,10 +82,11 @@ async function loadPaper() {
       const card = document.createElement("div");
       card.className = "person";
       const links = (a.links || []).map(l => `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`).join("");
+      const nameDisplay = a.coFirst ? `${a.name}<sup style="color: var(--accent);">*</sup>` : a.name;
       card.innerHTML = `
-        <img src="${a.photo || "assets/img/authors/placeholder.jpg"}" alt="${a.name}" loading="lazy" />
+        <img src="${a.photo || "assets/img/authors/placeholder.jpg"}" alt="${a.name}" loading="lazy" onerror="this.src='assets/img/authors/placeholder.jpg'; this.onerror=null;" />
         <div>
-          <div class="name">${a.name}</div>
+          <div class="name">${nameDisplay}</div>
           <div class="meta">${a.affil || ""}</div>
           <div class="links">${links}</div>
         </div>
@@ -98,6 +113,11 @@ async function loadPaper() {
     const featuredImg = el("featured-img");
     const featuredCap = el("featured-caption");
     const strip = el("thumb-strip");
+    const stripWrap = strip.parentElement;
+    
+    // Remove any existing show more button
+    const existingBtn = stripWrap.querySelector("#show-more-figures");
+    if (existingBtn) existingBtn.remove();
   
     // Default featured: explicit featured OR first gallery item
     const first = featured || (gallery && gallery[0]) || null;
@@ -107,10 +127,21 @@ async function loadPaper() {
       safeText(featuredCap, first.caption || "");
     }
   
+    // Filter out System_Overview.png from gallery if it's the teaser
+    const systemOverviewPath = "assets/img/figures/System_Overview.png";
+    const filteredGallery = (gallery || []).filter(f => f.src !== systemOverviewPath);
+    
+    // Show first 3 by default, rest hidden
+    const initialCount = 3;
+    let showingAll = false;
+    
     strip.innerHTML = "";
-    (gallery || []).forEach((f, idx) => {
+    filteredGallery.forEach((f, idx) => {
       const t = document.createElement("div");
       t.className = "thumb" + ((first && f.src === first.src) ? " active" : "");
+      if (idx >= initialCount) {
+        t.style.display = "none";
+      }
       t.innerHTML = `
         <img src="${f.src}" alt="${f.alt || "Figure"}" loading="lazy" />
         <div class="cap">${f.caption || ""}</div>
@@ -125,6 +156,27 @@ async function loadPaper() {
       });
       strip.appendChild(t);
     });
+    
+    // Show more button
+    if (filteredGallery.length > initialCount) {
+      const btn = document.createElement("button");
+      btn.id = "show-more-figures";
+      btn.className = "btn secondary";
+      btn.textContent = `Show ${filteredGallery.length - initialCount} more figures`;
+      btn.style.marginTop = "12px";
+      btn.addEventListener("click", () => {
+        showingAll = !showingAll;
+        [...strip.querySelectorAll(".thumb")].forEach((thumb, idx) => {
+          if (idx >= initialCount) {
+            thumb.style.display = showingAll ? "flex" : "none";
+          }
+        });
+        btn.textContent = showingAll 
+          ? "Show fewer figures" 
+          : `Show ${filteredGallery.length - initialCount} more figures`;
+      });
+      stripWrap.appendChild(btn);
+    }
   }
   
   function renderLogos(container, institutions) {
