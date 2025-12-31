@@ -10,7 +10,7 @@
     "buttons": [
       { "label": "Paper (arXiv)", "href": "https://arxiv.org/abs/2511.17777", "style": "primary" },
       { "label": "PDF", "href": "https://arxiv.org/pdf/2511.17777", "style": "secondary" },
-      { "label": "Video", "href": "https://www.youtube.com/PASTE_VIDEO_LINK_HERE", "style": "secondary" },
+      { "label": "Video", "href": "https://www.youtube.com/watch?v=FnwhNJGcEeQ", "style": "secondary" },
       { "label": "Code", "href": "https://github.com/PASTE_OWNER/PASTE_REPO", "style": "secondary" }
     ],
   
@@ -38,7 +38,7 @@
     ],
   
     "video": {
-      "embedUrl": ""
+      "embedUrl": "https://www.youtube.com/watch?v=FnwhNJGcEeQ"
     },
   
     "institutions": [
@@ -50,11 +50,11 @@
       {
         "name": "Brain Tool Lab (BTL)",
         "logoSrc": "assets/img/logo/BTL_out_gif.gif",
-        "href": ""
+        "href": "https://www.braintoollab.com/"
       }
     ],
   
-    "acknowledgements": "We thank our collaborators and clinical partners for their feedback and support. (Replace with your exact funding statement / grant numbers / facility acknowledgements.)",
+    "acknowledgements": "The authors wish to thank Aislinn Hurley and the members of the Brain Tool Lab for support and feedback.",
   
     "authors": [
       { "name": "Ravi Prakash",        "affil": "Duke University", "photo": "assets/img/authors/Ravi.jpg",     "links": [] },
