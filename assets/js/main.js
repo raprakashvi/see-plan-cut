@@ -57,18 +57,30 @@ async function loadPaper() {
     (authors || []).forEach(a => {
       const span = document.createElement("span");
       span.className = "author-pill";
+      let nameHTML = a.name;
       if (a.coFirst) {
-        span.innerHTML = `${a.name}<sup>*</sup>`;
+        nameHTML = `${a.name}<sup>*</sup>`;
         span.title = "* Equal contribution";
       } else if (a.coAdvisor) {
-        span.innerHTML = `${a.name}<sup>†</sup>`;
+        nameHTML = `${a.name}<sup>†</sup>`;
         span.title = "† Equal advising";
+      }
+      
+      // Make name clickable if link exists
+      if (a.links && a.links.length > 0 && a.links[0]) {
+        const link = document.createElement("a");
+        link.href = a.links[0];
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.innerHTML = nameHTML;
+        link.style.cssText = "color: inherit; text-decoration: none;";
+        span.appendChild(link);
       } else {
-        span.textContent = a.name;
+        span.innerHTML = nameHTML;
       }
       container.appendChild(span);
     });
-    // Add notes about co-first and co-advisor authors if any exist
+    // Add notes about co-first and co-advisor authors if any exist - on same line
     const hasCoFirst = (authors || []).some(a => a.coFirst);
     const hasCoAdvisor = (authors || []).some(a => a.coAdvisor);
     if (hasCoFirst || hasCoAdvisor) {
@@ -78,7 +90,7 @@ async function loadPaper() {
       if (hasCoFirst) parts.push("* Equal contribution");
       if (hasCoAdvisor) parts.push("† Equal advising");
       note.textContent = parts.join(" • ");
-      note.style.cssText = "color: var(--muted); font-size: 0.85rem; margin-left: 8px;";
+      note.style.cssText = "color: var(--muted); font-size: 0.85rem; margin-left: 8px; white-space: nowrap;";
       container.appendChild(note);
     }
   }
@@ -100,19 +112,39 @@ async function loadPaper() {
     (authors || []).forEach(a => {
       const card = document.createElement("div");
       card.className = "person";
-      const links = (a.links || []).map(l => `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`).join("");
+      // Handle links - can be strings (URLs) or objects with href/label
+      const links = (a.links || []).map(l => {
+        if (typeof l === 'string') {
+          // If it's just a URL string, don't show it in the links section (name is already clickable)
+          return '';
+        } else {
+          // If it's an object with href and label
+          return `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`;
+        }
+      }).filter(l => l !== '').join("");
+      
       let nameDisplay = a.name;
       if (a.coFirst) {
         nameDisplay = `${a.name}<sup style="color: var(--accent);">*</sup>`;
       } else if (a.coAdvisor) {
         nameDisplay = `${a.name}<sup style="color: var(--accent);">†</sup>`;
       }
+      
+      // Make name clickable if link exists (handles both string URLs and objects)
+      let nameHTML = nameDisplay;
+      if (a.links && a.links.length > 0 && a.links[0]) {
+        const linkUrl = typeof a.links[0] === 'string' ? a.links[0] : a.links[0].href;
+        if (linkUrl) {
+          nameHTML = `<a href="${linkUrl}" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">${nameDisplay}</a>`;
+        }
+      }
+      
       card.innerHTML = `
         <img src="${a.photo || "assets/authors/placeholder.jpg"}" alt="${a.name}" loading="lazy" onerror="this.src='assets/authors/placeholder.jpg'; this.onerror=null;" />
         <div>
-          <div class="name">${nameDisplay}</div>
+          <div class="name">${nameHTML}</div>
           <div class="meta">${a.affil || ""}</div>
-          <div class="links">${links}</div>
+          ${links ? `<div class="links">${links}</div>` : ''}
         </div>
       `;
       container.appendChild(card);
@@ -123,7 +155,7 @@ async function loadPaper() {
     if (hasCoFirst || hasCoAdvisor) {
       const noteDiv = document.createElement("div");
       noteDiv.className = "author-notes";
-      noteDiv.style.cssText = "margin-top: 12px; color: var(--muted); font-size: 0.9rem; display: inline-block; width: 100%;";
+      noteDiv.style.cssText = "margin-top: 12px; color: var(--muted); font-size: 0.9rem; width: 100%;";
       const notes = [];
       if (hasCoFirst) notes.push("* Equal contribution");
       if (hasCoAdvisor) notes.push("† Equal advising");
@@ -299,10 +331,10 @@ async function loadPaper() {
         a.target = "_blank";
         a.rel = "noopener";
       }
-      // Ensure consistent logo sizing (40px height for all logos)
+      // Ensure consistent logo sizing (40px height for all logos, fixed width to prevent text from affecting size)
       const logoImg = inst.logoSrc.endsWith('.svg') 
-        ? `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="filter: brightness(0) saturate(100%) invert(15%) sepia(95%) saturate(5000%) hue-rotate(195deg) brightness(0.6) contrast(1.2); height: 40px; width: auto; object-fit: contain;" />`
-        : `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="height: 40px; width: auto; object-fit: contain;" />`;
+        ? `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="filter: brightness(0) saturate(100%) invert(15%) sepia(95%) saturate(5000%) hue-rotate(195deg) brightness(0.6) contrast(1.2); height: 40px; width: 40px; min-width: 40px; object-fit: contain; flex-shrink: 0;" />`
+        : `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="height: 40px; width: 40px; min-width: 40px; object-fit: contain; flex-shrink: 0;" />`;
       a.innerHTML = `
         ${logoImg}
         <div class="label">${inst.name}</div>

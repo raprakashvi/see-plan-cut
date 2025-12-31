@@ -60,7 +60,7 @@
       {
         "name": "Bridgeman Lab",
         "logoSrc": "assets/img/logo/BridgemanLab.svg",
-        "href": "https://www.braintoollab.com/",
+        "href": "https://bridgeman.pratt.duke.edu/",
         "position": "center-top"
       },
       {
@@ -87,13 +87,13 @@
   
     "authors": [
       { "name": "Ravi Prakash",        "affil": "Duke University", "photo": "assets/authors/Ravi.jpg",     "links": ["https://raprakashvi.github.io/"], "coFirst": true },
-      { "name": "Vincent Y. Wang",     "affil": "Duke University", "photo": "assets/authors/Vincent.jpg",  "links": [], "coFirst": true },
-      { "name": "Arpit Mishra",        "affil": "Duke University", "photo": "assets/authors/Arpit.jpg",    "links": [] },
+      { "name": "Vincent Y. Wang",     "affil": "Duke University", "photo": "assets/authors/Vincent.jpg",  "links": ["https://bridgeman.pratt.duke.edu/people/vincent-wang"], "coFirst": true },
+      { "name": "Arpit Mishra",        "affil": "Duke University", "photo": "assets/authors/Arpit.jpg",    "links": ["https://scholar.google.com/citations?user=vEc9m44AAAAJ&hl=en"] },
       { "name": "Devi Yuliarti",       "affil": "Duke University", "photo": "assets/authors/Devi.jpeg",     "links": [] },
-      { "name": "Pei Zhong",           "affil": "Duke University", "photo": "assets/authors/Pei.jpg",      "links": [] },
-      { "name": "Ryan P. McNabb",      "affil": "Duke University", "photo": "assets/authors/Ryan.jpg",     "links": [] },
-      { "name": "Patrick J. Codd",     "affil": "Duke University", "photo": "assets/authors/Patrick.jpeg",  "links": [], "coAdvisor": true },
-      { "name": "Leila J. Bridgeman",  "affil": "Duke University", "photo": "assets/authors/Leila.jpg",    "links": [], "coAdvisor": true }
+      { "name": "Pei Zhong",           "affil": "Duke University", "photo": "assets/authors/Pei.jpg",      "links": ["https://mems.duke.edu/people/pei-zhong/"] },
+      { "name": "Ryan P. McNabb",      "affil": "Duke University", "photo": "assets/authors/Ryan.jpg",     "links": ["https://dukeeyecenter.duke.edu/profile/ryan-mcnabb"] },
+      { "name": "Patrick J. Codd",     "affil": "Duke University", "photo": "assets/authors/Patrick.jpeg",  "links": ["https://www.braintoollab.com/"], "coAdvisor": true },
+      { "name": "Leila J. Bridgeman",  "affil": "Duke University", "photo": "assets/authors/Leila.jpg",    "links": ["https://bridgeman.pratt.duke.edu/"], "coAdvisor": true }
     ],
   
     "bibtex": "@misc{prakash2025seeplancut,\n  title = {See, Plan, Cut: MPC-Based Autonomous Volumetric Robotic Laser Surgery with OCT Guidance},\n  author = {Prakash, Ravi and Wang, Vincent Y. and Mishra, Arpit and Yuliarti, Devi and Zhong, Pei and McNabb, Ryan P. and Codd, Patrick J. and Bridgeman, Leila J.},\n  year = {2025},\n  eprint = {2511.17777},\n  archivePrefix = {arXiv},\n  primaryClass = {cs.RO},\n  doi = {10.48550/arXiv.2511.17777}\n}"

@@ -252,9 +252,12 @@
   }
   .logo-card img{
     height:40px;
-    width:auto;
+    width:40px;
+    min-width:40px;
+    max-width:40px;
     display:block;
     object-fit:contain;
+    flex-shrink:0;
   }
   .logo-card .label{
     color:var(--muted);
