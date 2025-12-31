@@ -20,7 +20,8 @@
       <a class="brand" href="#top">See·Plan·Cut</a>
       <nav class="nav">
         <a href="#overview">Overview</a>
-        <a href="#media">Media</a>
+        <a href="#video">Video</a>
+        <a href="#media">Figures</a>
         <a href="#team">Team</a>
         <a href="#ack">Acknowledgements</a>
         <a href="#bibtex">BibTeX</a>
@@ -59,9 +60,34 @@
       </div>
     </section>
 
+    <section id="video" class="section">
+      <div class="container">
+        <h2>Video</h2>
+        <div class="video-wrap" id="video-wrap" style="display:none;">
+          <div class="ratio-16x9">
+            <!-- Thumbnail button (shown first) -->
+            <button class="video-thumb" id="video-thumb" type="button" aria-label="Play video">
+              <img id="video-thumb-img" src="" alt="Video thumbnail" loading="lazy" />
+              <div class="video-play">Play</div>
+            </button>
+
+            <!-- Iframe (loaded only after click) -->
+            <iframe
+              id="video-embed"
+              src=""
+              title="Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              style="display:none;"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="media" class="section">
       <div class="container">
-        <h2>Figure</h2>
+        <h2>Figures</h2>
 
         <!-- One large featured figure -->
         <figure class="featured-figure">
@@ -73,28 +99,8 @@
         <div class="thumb-strip-wrap">
           <div class="thumb-strip" id="thumb-strip"></div>
         </div>
-
-        <div class="video-wrap" id="video-wrap" style="display:none;">
-        <h3>Video</h3>
-
-        <div class="ratio-16x9">
-          <!-- Thumbnail button (shown first) -->
-          <button class="video-thumb" id="video-thumb" type="button" aria-label="Play video">
-            <img id="video-thumb-img" src="" alt="Video thumbnail" loading="lazy" />
-            <div class="video-play">Play</div>
-          </button>
-
-          <!-- Iframe (loaded only after click) -->
-          <iframe
-            id="video-embed"
-            src=""
-            title="Video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            style="display:none;"
-          ></iframe>
-        </div>
       </div>
+    </section>
 
 
     <section id="team" class="section">

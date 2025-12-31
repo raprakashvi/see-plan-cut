@@ -60,17 +60,24 @@ async function loadPaper() {
       if (a.coFirst) {
         span.innerHTML = `${a.name}<sup>*</sup>`;
         span.title = "* Equal contribution";
+      } else if (a.coAdvisor) {
+        span.innerHTML = `${a.name}<sup>†</sup>`;
+        span.title = "† Equal advising";
       } else {
         span.textContent = a.name;
       }
       container.appendChild(span);
     });
-    // Add note about co-first authors if any exist
+    // Add notes about co-first and co-advisor authors if any exist
     const hasCoFirst = (authors || []).some(a => a.coFirst);
-    if (hasCoFirst) {
+    const hasCoAdvisor = (authors || []).some(a => a.coAdvisor);
+    const notes = [];
+    if (hasCoFirst) notes.push("* Equal contribution");
+    if (hasCoAdvisor) notes.push("† Equal advising");
+    if (notes.length > 0) {
       const note = document.createElement("span");
       note.className = "author-note";
-      note.textContent = "* Equal contribution";
+      note.textContent = notes.join(" • ");
       note.style.cssText = "color: var(--muted); font-size: 0.85rem; margin-left: 8px;";
       container.appendChild(note);
     }
@@ -152,25 +159,8 @@ async function loadPaper() {
     // Default featured: explicit featured OR first gallery item
     const first = featured || (gallery && gallery[0]) || null;
     if (first) {
-      // Handle PDFs with iframe, images with img tag
-      if (first.src.endsWith('.pdf')) {
-        featuredImg.style.display = 'none';
-        let pdfFrame = featuredImg.parentElement.querySelector('iframe.pdf-viewer');
-        if (!pdfFrame) {
-          pdfFrame = document.createElement('iframe');
-          pdfFrame.className = 'pdf-viewer';
-          pdfFrame.style.cssText = 'width: 100%; height: 600px; border: 0; border-radius: 14px;';
-          featuredImg.parentElement.appendChild(pdfFrame);
-        }
-        pdfFrame.src = first.src;
-        pdfFrame.alt = first.alt || "Figure";
-      } else {
-        const pdfFrame = featuredImg.parentElement.querySelector('iframe.pdf-viewer');
-        if (pdfFrame) pdfFrame.remove();
-        featuredImg.style.display = 'block';
-        featuredImg.src = first.src;
-        featuredImg.alt = first.alt || "Figure";
-      }
+      featuredImg.src = first.src;
+      featuredImg.alt = first.alt || "Figure";
       safeText(featuredCap, first.caption || "");
     }
   
@@ -189,40 +179,13 @@ async function loadPaper() {
       if (idx >= initialCount) {
         t.style.display = "none";
       }
-      // Handle PDFs in thumbnails - use first page as thumbnail or show PDF icon
-      if (f.src.endsWith('.pdf')) {
-        t.innerHTML = `
-          <div style="width: 100%; height: 105px; background: var(--card); border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border);">
-            <span style="color: var(--muted); font-size: 0.85rem;">📄 PDF</span>
-          </div>
-          <div class="cap">${f.caption || ""}</div>
-        `;
-      } else {
-        t.innerHTML = `
-          <img src="${f.src}" alt="${f.alt || "Figure"}" loading="lazy" />
-          <div class="cap">${f.caption || ""}</div>
-        `;
-      }
+      t.innerHTML = `
+        <img src="${f.src}" alt="${f.alt || "Figure"}" loading="lazy" />
+        <div class="cap">${f.caption || ""}</div>
+      `;
       t.addEventListener("click", () => {
-        // Handle PDFs with iframe, images with img tag
-        if (f.src.endsWith('.pdf')) {
-          featuredImg.style.display = 'none';
-          let pdfFrame = featuredImg.parentElement.querySelector('iframe.pdf-viewer');
-          if (!pdfFrame) {
-            pdfFrame = document.createElement('iframe');
-            pdfFrame.className = 'pdf-viewer';
-            pdfFrame.style.cssText = 'width: 100%; height: 600px; border: 0; border-radius: 14px;';
-            featuredImg.parentElement.appendChild(pdfFrame);
-          }
-          pdfFrame.src = f.src;
-          pdfFrame.alt = f.alt || "Figure";
-        } else {
-          const pdfFrame = featuredImg.parentElement.querySelector('iframe.pdf-viewer');
-          if (pdfFrame) pdfFrame.remove();
-          featuredImg.style.display = 'block';
-          featuredImg.src = f.src;
-          featuredImg.alt = f.alt || "Figure";
-        }
+        featuredImg.src = f.src;
+        featuredImg.alt = f.alt || "Figure";
         safeText(featuredCap, f.caption || "");
         // active state
         [...strip.querySelectorAll(".thumb")].forEach(x => x.classList.remove("active"));

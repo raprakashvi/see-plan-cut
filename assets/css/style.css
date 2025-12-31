@@ -80,15 +80,15 @@
   .tags-row{
     display:flex;
     flex-wrap:wrap;
-    gap:8px;
-    margin-top:14px;
+    gap:6px;
+    margin-top:12px;
   }
   .tag{
-    padding:5px 10px;
+    padding:4px 8px;
     border:1px solid var(--border);
     border-radius:999px;
     background:var(--card);
-    font-size:0.85rem;
+    font-size:0.75rem;
     color:var(--muted);
     font-weight:500;
   }
