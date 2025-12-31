@@ -68,6 +68,7 @@
   .prose{color:var(--fg);max-width:78ch}
   .prose a{color:var(--accent);text-decoration:underline}
   .prose a:hover{opacity:0.8}
+  #paper-abstract{text-align:justify}
   
   .cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
   .btn{
