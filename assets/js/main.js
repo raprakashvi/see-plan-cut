@@ -335,9 +335,10 @@ async function loadPaper() {
       // Larger logos for specific labs, no text labels
       const isLargeLogo = inst.name.includes("Neurosurgery") || 
                          inst.name.includes("Brain Tool Lab") || 
-                         inst.name.includes("Bridgeman Lab");
-      const logoHeight = isLargeLogo ? "120px" : "80px";
-      const logoMaxWidth = isLargeLogo ? "180px" : "120px";
+                         inst.name.includes("Bridgeman Lab") ||
+                         inst.name.includes("EyeRIS Lab");
+      const logoHeight = isLargeLogo ? "120px" : "100px";
+      const logoMaxWidth = isLargeLogo ? "180px" : "150px";
       
       const logoImg = inst.logoSrc.endsWith('.svg') 
         ? `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="filter: brightness(0) saturate(100%) invert(15%) sepia(95%) saturate(5000%) hue-rotate(195deg) brightness(0.6) contrast(1.2); height: ${logoHeight}; width: auto; max-width: ${logoMaxWidth}; object-fit: contain;" />`
