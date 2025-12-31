@@ -331,10 +331,10 @@ async function loadPaper() {
         a.target = "_blank";
         a.rel = "noopener";
       }
-      // Ensure consistent logo sizing (40px height for all logos, fixed width to prevent text from affecting size)
+      // Ensure consistent logo sizing (50px height for all logos, fixed width to prevent text from affecting size)
       const logoImg = inst.logoSrc.endsWith('.svg') 
-        ? `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="filter: brightness(0) saturate(100%) invert(15%) sepia(95%) saturate(5000%) hue-rotate(195deg) brightness(0.6) contrast(1.2); height: 40px; width: 40px; min-width: 40px; object-fit: contain; flex-shrink: 0;" />`
-        : `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="height: 80px; width: 80px; min-width: 40px; object-fit: contain; flex-shrink: 0;" />`;
+        ? `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="filter: brightness(0) saturate(100%) invert(15%) sepia(95%) saturate(5000%) hue-rotate(195deg) brightness(0.6) contrast(1.2); height: 50px; width: 50px; min-width: 50px; max-width: 50px; object-fit: contain; flex-shrink: 0;" />`
+        : `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="height: 50px; width: 50px; min-width: 50px; max-width: 50px; object-fit: contain; flex-shrink: 0;" />`;
       a.innerHTML = `
         ${logoImg}
         <div class="label">${inst.name}</div>
