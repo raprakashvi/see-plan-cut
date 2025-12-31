@@ -9,7 +9,7 @@
       { "label": "Paper (PDF)", "href": "https://arxiv.org/pdf/2511.17777", "style": "primary" },
       { "label": "arXiv", "href": "https://arxiv.org/abs/2511.17777", "style": "secondary" },
       { "label": "Code", "href": "https://github.com/<YOUR_ORG_OR_USERNAME>/<REPO>", "style": "secondary" },
-      { "label": "Video", "href": "https://www.youtube.com/<YOUR_VIDEO>", "style": "secondary" }
+      { "label": "Video", "href": "https://youtu.be/FnwhNJGcEeQ", "style": "secondary" }
     ],
     "affiliationsLine": "Duke University • Mechanical Engineering & Materials Science • School of Medicine • Neurosurgery",
     "teaser": {
