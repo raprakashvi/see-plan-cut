@@ -322,23 +322,21 @@ async function loadPaper() {
       }
     });
     
-    // Helper function for consistent logo rendering
+    // Helper function for consistent logo rendering - just logos, no pills
     function renderLogoCard(inst) {
       const a = document.createElement(inst.href ? "a" : "div");
       a.className = "logo-card";
+      a.title = inst.name; // Show name on hover
       if (inst.href) {
         a.href = inst.href;
         a.target = "_blank";
         a.rel = "noopener";
       }
-      // Ensure consistent logo sizing (50px height for all logos, fixed width to prevent text from affecting size)
+      // Larger logos, no text labels
       const logoImg = inst.logoSrc.endsWith('.svg') 
-        ? `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="filter: brightness(0) saturate(100%) invert(15%) sepia(95%) saturate(5000%) hue-rotate(195deg) brightness(0.6) contrast(1.2); height: 50px; width: 50px; min-width: 50px; max-width: 50px; object-fit: contain; flex-shrink: 0;" />`
-        : `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="height: 50px; width: 50px; min-width: 50px; max-width: 50px; object-fit: contain; flex-shrink: 0;" />`;
-      a.innerHTML = `
-        ${logoImg}
-        <div class="label">${inst.name}</div>
-      `;
+        ? `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="filter: brightness(0) saturate(100%) invert(15%) sepia(95%) saturate(5000%) hue-rotate(195deg) brightness(0.6) contrast(1.2); height: 80px; width: auto; max-width: 120px; object-fit: contain;" />`
+        : `<img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" style="height: 80px; width: auto; max-width: 120px; object-fit: contain;" />`;
+      a.innerHTML = logoImg;
       return a;
     }
     
