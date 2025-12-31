@@ -82,9 +82,14 @@ async function loadPaper() {
       const card = document.createElement("div");
       card.className = "person";
       const links = (a.links || []).map(l => `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`).join("");
-      const nameDisplay = a.coFirst ? `${a.name}<sup style="color: var(--accent);">*</sup>` : a.name;
+      let nameDisplay = a.name;
+      if (a.coFirst) {
+        nameDisplay = `${a.name}<sup style="color: var(--accent);">*</sup>`;
+      } else if (a.coAdvisor) {
+        nameDisplay = `${a.name}<sup style="color: var(--accent);">†</sup>`;
+      }
       card.innerHTML = `
-        <img src="${a.photo || "assets/img/authors/placeholder.jpg"}" alt="${a.name}" loading="lazy" onerror="this.src='assets/img/authors/placeholder.jpg'; this.onerror=null;" />
+        <img src="${a.photo || "assets/authors/placeholder.jpg"}" alt="${a.name}" loading="lazy" onerror="this.src='assets/authors/placeholder.jpg'; this.onerror=null;" />
         <div>
           <div class="name">${nameDisplay}</div>
           <div class="meta">${a.affil || ""}</div>
@@ -93,6 +98,19 @@ async function loadPaper() {
       `;
       container.appendChild(card);
     });
+    // Add notes about co-first and co-advisor
+    const hasCoFirst = (authors || []).some(a => a.coFirst);
+    const hasCoAdvisor = (authors || []).some(a => a.coAdvisor);
+    if (hasCoFirst || hasCoAdvisor) {
+      const noteDiv = document.createElement("div");
+      noteDiv.className = "author-notes";
+      noteDiv.style.cssText = "margin-top: 12px; color: var(--muted); font-size: 0.9rem;";
+      const notes = [];
+      if (hasCoFirst) notes.push("* Equal contribution");
+      if (hasCoAdvisor) notes.push("† Equal advising");
+      noteDiv.textContent = notes.join(" • ");
+      container.appendChild(noteDiv);
+    }
   }
   
   function setupCopyBibtex(text) {
@@ -122,8 +140,25 @@ async function loadPaper() {
     // Default featured: explicit featured OR first gallery item
     const first = featured || (gallery && gallery[0]) || null;
     if (first) {
-      featuredImg.src = first.src;
-      featuredImg.alt = first.alt || "Figure";
+      // Handle PDFs with iframe, images with img tag
+      if (first.src.endsWith('.pdf')) {
+        featuredImg.style.display = 'none';
+        let pdfFrame = featuredImg.parentElement.querySelector('iframe.pdf-viewer');
+        if (!pdfFrame) {
+          pdfFrame = document.createElement('iframe');
+          pdfFrame.className = 'pdf-viewer';
+          pdfFrame.style.cssText = 'width: 100%; height: 600px; border: 0; border-radius: 14px;';
+          featuredImg.parentElement.appendChild(pdfFrame);
+        }
+        pdfFrame.src = first.src;
+        pdfFrame.alt = first.alt || "Figure";
+      } else {
+        const pdfFrame = featuredImg.parentElement.querySelector('iframe.pdf-viewer');
+        if (pdfFrame) pdfFrame.remove();
+        featuredImg.style.display = 'block';
+        featuredImg.src = first.src;
+        featuredImg.alt = first.alt || "Figure";
+      }
       safeText(featuredCap, first.caption || "");
     }
   
@@ -142,13 +177,40 @@ async function loadPaper() {
       if (idx >= initialCount) {
         t.style.display = "none";
       }
-      t.innerHTML = `
-        <img src="${f.src}" alt="${f.alt || "Figure"}" loading="lazy" />
-        <div class="cap">${f.caption || ""}</div>
-      `;
+      // Handle PDFs in thumbnails - use first page as thumbnail or show PDF icon
+      if (f.src.endsWith('.pdf')) {
+        t.innerHTML = `
+          <div style="width: 100%; height: 105px; background: var(--card); border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border);">
+            <span style="color: var(--muted); font-size: 0.85rem;">📄 PDF</span>
+          </div>
+          <div class="cap">${f.caption || ""}</div>
+        `;
+      } else {
+        t.innerHTML = `
+          <img src="${f.src}" alt="${f.alt || "Figure"}" loading="lazy" />
+          <div class="cap">${f.caption || ""}</div>
+        `;
+      }
       t.addEventListener("click", () => {
-        featuredImg.src = f.src;
-        featuredImg.alt = f.alt || "Figure";
+        // Handle PDFs with iframe, images with img tag
+        if (f.src.endsWith('.pdf')) {
+          featuredImg.style.display = 'none';
+          let pdfFrame = featuredImg.parentElement.querySelector('iframe.pdf-viewer');
+          if (!pdfFrame) {
+            pdfFrame = document.createElement('iframe');
+            pdfFrame.className = 'pdf-viewer';
+            pdfFrame.style.cssText = 'width: 100%; height: 600px; border: 0; border-radius: 14px;';
+            featuredImg.parentElement.appendChild(pdfFrame);
+          }
+          pdfFrame.src = f.src;
+          pdfFrame.alt = f.alt || "Figure";
+        } else {
+          const pdfFrame = featuredImg.parentElement.querySelector('iframe.pdf-viewer');
+          if (pdfFrame) pdfFrame.remove();
+          featuredImg.style.display = 'block';
+          featuredImg.src = f.src;
+          featuredImg.alt = f.alt || "Figure";
+        }
         safeText(featuredCap, f.caption || "");
         // active state
         [...strip.querySelectorAll(".thumb")].forEach(x => x.classList.remove("active"));
@@ -181,7 +243,31 @@ async function loadPaper() {
   
   function renderLogos(container, institutions) {
     container.innerHTML = "";
+    
+    // Group by position
+    const grouped = {
+      "center-top": [],
+      "left-bottom": [],
+      "right-bottom": [],
+      "center-bottom": []
+    };
+    
     (institutions || []).forEach(inst => {
+      const pos = inst.position || "center-top";
+      if (grouped[pos]) {
+        grouped[pos].push(inst);
+      }
+    });
+    
+    // Create grid layout
+    const grid = document.createElement("div");
+    grid.className = "logos-grid";
+    grid.style.cssText = "display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0;";
+    
+    // Top row: center labs
+    const topRow = document.createElement("div");
+    topRow.style.cssText = "grid-column: 1 / -1; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;";
+    grouped["center-top"].forEach(inst => {
       const a = document.createElement(inst.href ? "a" : "div");
       a.className = "logo-card";
       if (inst.href) {
@@ -193,8 +279,73 @@ async function loadPaper() {
         <img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" />
         <div class="label">${inst.name}</div>
       `;
-      container.appendChild(a);
+      topRow.appendChild(a);
     });
+    grid.appendChild(topRow);
+    
+    // Bottom row: left, center, right
+    const bottomRow = document.createElement("div");
+    bottomRow.style.cssText = "grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: center;";
+    
+    // Left
+    const leftCol = document.createElement("div");
+    leftCol.style.cssText = "display: flex; justify-content: flex-start;";
+    grouped["left-bottom"].forEach(inst => {
+      const a = document.createElement(inst.href ? "a" : "div");
+      a.className = "logo-card";
+      if (inst.href) {
+        a.href = inst.href;
+        a.target = "_blank";
+        a.rel = "noopener";
+      }
+      a.innerHTML = `
+        <img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" />
+        <div class="label">${inst.name}</div>
+      `;
+      leftCol.appendChild(a);
+    });
+    bottomRow.appendChild(leftCol);
+    
+    // Center
+    const centerCol = document.createElement("div");
+    centerCol.style.cssText = "display: flex; justify-content: center;";
+    grouped["center-bottom"].forEach(inst => {
+      const a = document.createElement(inst.href ? "a" : "div");
+      a.className = "logo-card";
+      if (inst.href) {
+        a.href = inst.href;
+        a.target = "_blank";
+        a.rel = "noopener";
+      }
+      a.innerHTML = `
+        <img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" />
+        <div class="label">${inst.name}</div>
+      `;
+      centerCol.appendChild(a);
+    });
+    bottomRow.appendChild(centerCol);
+    
+    // Right
+    const rightCol = document.createElement("div");
+    rightCol.style.cssText = "display: flex; justify-content: flex-end;";
+    grouped["right-bottom"].forEach(inst => {
+      const a = document.createElement(inst.href ? "a" : "div");
+      a.className = "logo-card";
+      if (inst.href) {
+        a.href = inst.href;
+        a.target = "_blank";
+        a.rel = "noopener";
+      }
+      a.innerHTML = `
+        <img src="${inst.logoSrc}" alt="${inst.name} logo" loading="lazy" />
+        <div class="label">${inst.name}</div>
+      `;
+      rightCol.appendChild(a);
+    });
+    bottomRow.appendChild(rightCol);
+    
+    grid.appendChild(bottomRow);
+    container.appendChild(grid);
   }
   
   (async function main(){
@@ -216,7 +367,9 @@ async function loadPaper() {
   
     el("teaser-img").src = p.teaser?.src || "assets/img/teaser.jpg";
     el("teaser-img").alt = p.teaser?.alt || "Teaser";
-    safeText(el("teaser-caption"), p.teaser?.caption);
+    // Hide caption for teaser
+    const teaserCaption = el("teaser-caption");
+    if (teaserCaption) teaserCaption.style.display = "none";
   
     safeText(el("paper-abstract"), p.abstract);
   
@@ -227,8 +380,9 @@ async function loadPaper() {
   
     renderPeople(el("people-grid"), p.authors);
   
-    renderLogos(el("logos-row"), p.institutions);
     safeText(el("ack-text"), p.acknowledgements || "");
+    
+    renderLogos(el("logos-row"), p.institutions);
   
     safeText(el("doi-line"), p.doi ? `DOI: ${p.doi}` : "");
     safeText(el("bibtex-block"), p.bibtex);
