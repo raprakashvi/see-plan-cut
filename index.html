@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>See, Plan, Cut</title>
+  <meta name="description" content="Paper website: See, Plan, Cut — MPC-Based Autonomous Volumetric Robotic Laser Surgery with OCT Guidance." />
+
+  <!-- Open Graph (nice link previews) -->
+  <meta property="og:title" content="See, Plan, Cut" />
+  <meta property="og:description" content="MPC-Based Autonomous Volumetric Robotic Laser Surgery with OCT Guidance" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/img/teaser.jpg" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#top">Paper</a>
+      <nav class="nav">
+        <a href="#overview">Overview</a>
+        <a href="#results">Results</a>
+        <a href="#media">Media</a>
+        <a href="#bibtex">BibTeX</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="kicker" id="paper-venue">arXiv</div>
+          <h1 id="paper-title">See, Plan, Cut</h1>
+          <p class="subtitle" id="paper-subtitle"></p>
+
+          <div class="authors" id="author-list"></div>
+
+          <div class="cta-row" id="cta-row"></div>
+
+          <div class="affils" id="paper-affils"></div>
+        </div>
+
+        <figure class="teaser">
+          <img id="teaser-img" src="assets/img/teaser.jpg" alt="Teaser figure" />
+          <figcaption id="teaser-caption"></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="overview" class="section">
+      <div class="container">
+        <h2>Abstract</h2>
+        <p class="prose" id="paper-abstract"></p>
+
+        <div class="cards">
+          <div class="card">
+            <h3>Contributions</h3>
+            <ul id="paper-contribs"></ul>
+          </div>
+          <div class="card">
+            <h3>At a glance</h3>
+            <ul id="paper-glance"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="section">
+      <div class="container">
+        <h2>Key results</h2>
+        <div class="metrics" id="paper-metrics"></div>
+        <p class="note" id="metrics-note"></p>
+      </div>
+    </section>
+
+    <section id="media" class="section">
+      <div class="container">
+        <h2>Figures & media</h2>
+        <div class="figure-grid" id="figure-grid"></div>
+
+        <div class="video-wrap" id="video-wrap" style="display:none;">
+          <h3>Video</h3>
+          <div class="ratio-16x9">
+            <iframe id="video-embed" src="" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="section">
+      <div class="container">
+        <h2>Authors</h2>
+        <div class="people" id="people-grid"></div>
+        <p class="note">Tip: add headshots in <code>assets/img/authors/</code>. Use square crops (~256×256) for best results.</p>
+      </div>
+    </section>
+
+    <section id="bibtex" class="section">
+      <div class="container">
+        <h2>Citation</h2>
+        <div class="bibtex">
+          <div class="bibtex-bar">
+            <button class="btn secondary" id="copy-bib">Copy BibTeX</button>
+            <span class="small" id="doi-line"></span>
+          </div>
+          <pre><code id="bibtex-block"></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <span class="small">Built from a lightweight GitHub Pages template.</span>
+        <span class="small" id="last-updated"></span>
+      </div>
+    </footer>
+  </main>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

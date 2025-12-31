@@ -1,0 +1,66 @@
+{
+    "shortTitle": "See, Plan, Cut",
+    "venueLine": "arXiv • cs.RO • 2025",
+    "title": "See, Plan, Cut: MPC-Based Autonomous Volumetric Robotic Laser Surgery with OCT Guidance",
+    "subtitle": "Closed-loop volumetric laser resection with OCT guidance via sampling-based MPC.",
+    "doi": "10.48550/arXiv.2511.17777",
+    "lastUpdated": "2025-12-30",
+    "buttons": [
+      { "label": "Paper (PDF)", "href": "https://arxiv.org/pdf/2511.17777", "style": "primary" },
+      { "label": "arXiv", "href": "https://arxiv.org/abs/2511.17777", "style": "secondary" },
+      { "label": "Code", "href": "https://github.com/<YOUR_ORG_OR_USERNAME>/<REPO>", "style": "secondary" },
+      { "label": "Video", "href": "https://www.youtube.com/<YOUR_VIDEO>", "style": "secondary" }
+    ],
+    "affiliationsLine": "Duke University • Mechanical Engineering & Materials Science • School of Medicine • Neurosurgery",
+    "teaser": {
+      "src": "assets/img/teaser.jpg",
+      "alt": "RATS platform and OCT-guided volumetric resection",
+      "caption": "RATS: OCT-guided robotic laser surgery with constraint-aware volumetric planning."
+    },
+    "abstract": "Robotic laser systems offer the potential for sub-millimeter, non-contact, high-precision tissue resection, yet existing platforms lack volumetric planning and intraoperative feedback. We present RATS (Robot-Assisted Tissue Surgery), an intelligent opto-mechanical, OCT-guided robotic platform designed for autonomous volumetric soft tissue resection in surgical applications. RATS integrates macro-scale RGB-D imaging, micro-scale OCT, and a fiber-coupled surgical laser, calibrated through a multistage alignment pipeline. A super-Gaussian LTI model characterizes ablation crater morphology, and a sampling-based MPC framework operates directly on OCT voxel data for closed-loop, constraint-aware resection, including preservation of subsurface structures.",
+    "contributions": [
+      "An OCT-guided opto-mechanical robotic platform for volumetric laser resection.",
+      "Multi-stage calibration aligning OCT, laser, and robot frames for accurate targeting.",
+      "Super-Gaussian laser–tissue interaction model validated with OCT crater reconstructions.",
+      "Sampling-based MPC planner operating directly on OCT voxels for closed-loop execution."
+    ],
+    "atAGlance": [
+      "OCT–laser calibration accuracy: 0.161 ± 0.031 mm",
+      "Super-Gaussian crater modeling: 0.231 ± 0.121 mm RMSE",
+      "Closed-loop resection: 0.842 mm RMSE",
+      "64.8% IoU improvement vs. feedforward execution"
+    ],
+    "metrics": [
+      { "label": "OCT→Laser calibration", "value": "0.161 ± 0.031 mm", "context": "Phantoms + ex vivo porcine tissue" },
+      { "label": "LTI model (super-Gaussian)", "value": "0.231 ± 0.121 mm RMSE", "context": "Crater morphology fit" },
+      { "label": "Closed-loop resection", "value": "0.842 mm RMSE", "context": "Voxel-level MPC planning + feedback" }
+    ],
+    "metricsNote": "Numbers reported in the arXiv abstract; update here if you want to quote figure-specific or dataset-specific subsets.",
+    "figures": [
+      {
+        "src": "assets/img/figures/fig1.jpg",
+        "alt": "System overview",
+        "caption": "System overview / pipeline figure (replace with your selected figure)."
+      },
+      {
+        "src": "assets/img/figures/fig2.jpg",
+        "alt": "Planner + results",
+        "caption": "Planner and volumetric resection results (replace with your selected figure)."
+      }
+    ],
+    "video": {
+      "embedUrl": ""
+    },
+    "authors": [
+      { "name": "Ravi Prakash", "affil": "Duke University", "photo": "assets/img/authors/prakash.jpg", "links": [ { "label": "Email", "href": "mailto:ravi.prakash@duke.edu" } ] },
+      { "name": "Vincent Y. Wang", "affil": "Duke University", "photo": "assets/img/authors/wang.jpg", "links": [] },
+      { "name": "Arpit Mishra", "affil": "Duke University", "photo": "assets/img/authors/mishra.jpg", "links": [] },
+      { "name": "Devi Yuliarti", "affil": "Duke University", "photo": "assets/img/authors/yuliarti.jpg", "links": [] },
+      { "name": "Pei Zhong", "affil": "Duke University", "photo": "assets/img/authors/zhong.jpg", "links": [] },
+      { "name": "Ryan P. McNabb", "affil": "Duke University School of Medicine", "photo": "assets/img/authors/mcnabb.jpg", "links": [] },
+      { "name": "Patrick J. Codd", "affil": "Duke University", "photo": "assets/img/authors/codd.jpg", "links": [] },
+      { "name": "Leila J. Bridgeman", "affil": "Duke University", "photo": "assets/img/authors/bridgeman.jpg", "links": [] }
+    ],
+    "bibtex": "@misc{prakash2025seeplancut,\\n  title = {See, Plan, Cut: MPC-Based Autonomous Volumetric Robotic Laser Surgery with OCT Guidance},\\n  author = {Prakash, Ravi and Wang, Vincent Y. and Mishra, Arpit and Yuliarti, Devi and Zhong, Pei and McNabb, Ryan P. and Codd, Patrick J. and Bridgeman, Leila J.},\\n  year = {2025},\\n  eprint = {2511.17777},\\n  archivePrefix = {arXiv},\\n  primaryClass = {cs.RO},\\n  doi = {10.48550/arXiv.2511.17777}\\n}"
+  }
+  
