@@ -38,8 +38,10 @@
     ],
   
     "video": {
-      "embedUrl": "https://www.youtube.com/watch?v=FnwhNJGcEeQ"
+    "youtubeId": "https://www.youtube.com/watch?v=FnwhNJGcEeQ",
+    "title": "See, Plan, Cut"
     },
+
   
     "institutions": [
       {

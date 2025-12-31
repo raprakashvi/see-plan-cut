@@ -72,15 +72,28 @@
           <div class="thumb-strip" id="thumb-strip"></div>
         </div>
 
-        <!-- Optional video -->
         <div class="video-wrap" id="video-wrap" style="display:none;">
-          <h3>Video</h3>
-          <div class="ratio-16x9">
-            <iframe id="video-embed" src="" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
+        <h3>Video</h3>
+
+        <div class="ratio-16x9">
+          <!-- Thumbnail button (shown first) -->
+          <button class="video-thumb" id="video-thumb" type="button" aria-label="Play video">
+            <img id="video-thumb-img" src="" alt="Video thumbnail" loading="lazy" />
+            <div class="video-play">Play</div>
+          </button>
+
+          <!-- Iframe (loaded only after click) -->
+          <iframe
+            id="video-embed"
+            src=""
+            title="Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            style="display:none;"
+          ></iframe>
         </div>
       </div>
-    </section>
+
 
     <section id="team" class="section">
       <div class="container">

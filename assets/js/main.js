@@ -1,7 +1,37 @@
+function setupYouTubeThumbnailPlayer(video) {
+    const wrap = el("video-wrap");
+    const thumbBtn = el("video-thumb");
+    const thumbImg = el("video-thumb-img");
+    const iframe = el("video-embed");
+  
+    if (!video || !video.youtubeId) return;
+  
+    const id = video.youtubeId.trim();
+    wrap.style.display = "block";
+  
+    // Try maxres thumbnail, fallback to hqdefault if maxres missing
+    const maxres = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+    const hq = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+  
+    thumbImg.src = maxres;
+    thumbImg.onerror = () => { thumbImg.src = hq; };
+  
+    thumbBtn.addEventListener("click", () => {
+      thumbBtn.style.display = "none";
+      iframe.style.display = "block";
+  
+      // Privacy-enhanced embed, autoplay on click
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+    }, { once: true });
+  }
+  
+
 async function loadPaper() {
     const res = await fetch("data/paper.json", { cache: "no-store" });
     return await res.json();
   }
+
+
   
   function el(id){ return document.getElementById(id); }
   function safeText(node, text) { node.textContent = text ?? ""; }
@@ -117,6 +147,12 @@ async function loadPaper() {
     safeText(el("paper-venue"), p.venueLine);
     safeText(el("paper-title"), p.title);
     safeText(el("paper-subtitle"), p.subtitle);
+
+    if (p.video?.embedUrl) {
+  el("video-wrap").style.display = "block";
+  el("video-embed").src = p.video.embedUrl;
+}
+
   
     renderAuthorsPills(el("author-list"), p.authors);
   
@@ -134,10 +170,8 @@ async function loadPaper() {
   
     renderFeaturedAndStrip(p.featuredFigure, p.galleryFigures);
   
-    if (p.video?.embedUrl) {
-      el("video-wrap").style.display = "block";
-      el("video-embed").src = p.video.embedUrl;
-    }
+    setupYouTubeThumbnailPlayer(p.video);
+
   
     renderPeople(el("people-grid"), p.authors);
   
