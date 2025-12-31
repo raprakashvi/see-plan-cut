@@ -64,6 +64,12 @@
         "position": "center-top"
       },
       {
+        "name": "EyeRIS Lab",
+        "logoSrc": "assets/img/logo/EyeRIS _Logo.png",
+        "href": "https://eyeris.pratt.duke.edu/",
+        "position": "center-top"
+      },
+      {
         "name": "Duke Neurosurgery",
         "logoSrc": "assets/img/logo/DUSOM_neurosurg.jpg",
         "href": "https://neurosurgery.duke.edu/",
