@@ -1,11 +1,11 @@
 {
     "shortTitle": "See, Plan, Cut",
-    "venueLine": "arXiv • 2025",
+    "venueLine": "IEEE ICRA • 2026",
     "title": "See, Plan, Cut: MPC-Based Autonomous Volumetric Robotic Laser Surgery with OCT Guidance",
     "subtitle": "Closed-loop volumetric laser resection with OCT guidance via sampling-based MPC.",
     "doi": "10.48550/arXiv.2511.17777",
     "lastUpdated": "2025-12-30",
-    "footerLeft": "© 2025 Brain Tool Lab • Duke University",
+    "footerLeft": "© 2026 Brain Tool Lab • Duke University",
   
     "buttons": [
       { "label": "Paper (arXiv)", "href": "https://arxiv.org/abs/2511.17777", "style": "primary" },
