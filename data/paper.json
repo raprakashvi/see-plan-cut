@@ -11,7 +11,7 @@
       { "label": "Paper (arXiv)", "href": "https://arxiv.org/abs/2511.17777", "style": "primary" },
       { "label": "PDF", "href": "data/See_Plan_Cut.pdf", "style": "secondary" },
       { "label": "Video", "href": "https://www.youtube.com/watch?v=FnwhNJGcEeQ", "style": "secondary" },
-      { "label": "Code", "href": "https://github.com/PASTE_OWNER/PASTE_REPO", "style": "secondary" }
+      { "label": "Code", "href": "https://github.com/raprakashvi/see_plan_cut", "style": "secondary" }
     ],
   
     "tags": [
